@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from "next/head";
+import Link from "next/link";
 import axios from "axios";
 import styles from '../../styles/Home.module.css'
+import CardPost from '../../components/CardPost';
 
 export default function Users({users}){
     return(
@@ -13,8 +15,15 @@ export default function Users({users}){
            <h1>Page Users!!!</h1>
           <ul>
             {
-                users.map(user => (<li key={user.id}>{user.firstName}</li>))
-            }    
+                users.map(user => (<li key={user.id}>
+                    <Link href={`/users/${user.id}`}> 
+                        <a style={{color:'blue', textDecoration:'underline'}}>
+                            {user.firstName}
+                        </a>
+                    </Link>
+                </li>))
+            }   
+            <CardPost /> 
           </ul>
         </div>    
     )
@@ -44,7 +53,6 @@ export async function getStaticProps(){
     )
     //axios -> response.data aqui viene lo que me regresa la API
     // users.data.data el ultimo data es desde la API
-    console.log("Aca mis users", users.data.data)
     return {
         props: {
             users: users.data.data
